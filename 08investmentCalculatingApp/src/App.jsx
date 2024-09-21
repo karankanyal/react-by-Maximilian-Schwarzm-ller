@@ -24,6 +24,8 @@ function App() {
     duration: inputValue[3].value,
   });
 
+  const isInputValid = inputValue[3].value > 0;
+
   function handleOnValueChange(newValue, id) {
     setInputValue(preValue => {
       return preValue.map(inp => {
@@ -46,10 +48,14 @@ function App() {
         ))}
       </div>
       <div className="w-full mt-20">
-        <CalculatedValuesRender
-          data={calculatedValues}
-          initialInvestment={inputValue[0].value}
-        />
+        {isInputValid ? (
+          <CalculatedValuesRender
+            data={calculatedValues}
+            initialInvestment={inputValue[0].value}
+          />
+        ) : (
+          <h1 className="text-red-700 text-4xl">Duration Invalid!</h1>
+        )}
       </div>
     </>
   );
