@@ -37,15 +37,10 @@ function App() {
   return (
     <>
       <div className="grid p-4 grid-rows-2 grid-cols-2 rounded-md w-full bg-gradient-to-b from-[rgb(48,126,108)] to-[rgb(43,153,109)]">
-        {inputValue.map(({ id, inputName, value }) => (
-          <InvestmentInputs
-            key={id}
-            ID={id}
-            onChangingValue={handleOnValueChange}
-            name={inputName}
-            value={value}
-          />
-        ))}
+        <InvestmentInputs
+          onChangingValue={handleOnValueChange}
+          inputValue={inputValue}
+        />
       </div>
       <div className="w-full mt-20">
         {isInputValid ? (
