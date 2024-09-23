@@ -1,0 +1,20 @@
+body bg = radial-gradient(#186a5e, #053339)
+
+black color inside bg = radial-gradient(#0b201d, #021619)
+
+font-family = 'Handjet', monospace;
+text color = #c1e2dd
+text-almost color = #00eeff
+
+stop the timer line color = #c6f4f2
+
+welcome name color = #54a399
+
+setname bg = #192f2b
+setname border-color = #54a399;
+setName color = #d1f0ec
+
+game difficultylevel bg-color = linear-gradient(#4df8df, #4df0f8);
+game levelName color = #221c18
+
+startChallange button color = #12352f
