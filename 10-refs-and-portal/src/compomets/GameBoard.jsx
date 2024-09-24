@@ -1,24 +1,69 @@
+import { useRef, useState } from 'react';
+import ResultModal from './ResultModal';
+
+// let timer;
+// Using this we can start and stop the timer but this is a global variable means this can store only one value-
+// -(only one GameBoard component's value), If we do start timer like 1sec and 5sec together timer will get the last one value wiz clicked.
+// Hence this is not a good solution istead we can use Ref()
+
 export default function GameBoard({
   difficultyLevel,
-  timerValue,
+  targetTime,
   timerStatus,
 }) {
+  // We also can not use it here bcz when component re-executed again this timer also executed again and get's new value which will be null;
+  // let timer;
+
+  let timer = useRef();
+
+  const [timerStarted, setTimerStarted] = useState(false);
+  const [timerExpired, setTimerExpired] = useState(false);
+
+  function handleStart() {
+    setTimerStarted(true);
+    timer.current = setTimeout(() => {
+      setTimerExpired(true);
+      setTimerStarted(false);
+    }, 1000 * targetTime);
+  }
+
+  function handleStop() {
+    clearTimeout(timer.current);
+    setTimerExpired(false);
+    setTimerStarted(false);
+  }
+
   return (
-    <div className="my-10 grid grid-cols-1 md:grid-cols-2 gap-4 w-4/5 justify-items-center">
-      <div className="bg-gamepadBG w-full flex flex-col justify-center items-center rounded-lg py-10">
-        <h1 className="my-4 uppercase text-xl font-bold">
-          {difficultyLevel}easy
-        </h1>
+    <>
+      {timerExpired && <ResultModal targetTime={targetTime} />}
+      <section className="bg-gamepadBG w-full flex flex-col justify-center items-center rounded-lg py-2">
+        <h1 className="my-4 uppercase text-xl font-bold">{difficultyLevel}</h1>
+        {timerExpired && <i>You lost!</i>}
         <p className="border border-teal-400 rounded-md px-2 py-1">
-          {timerValue} timerValue
+          {targetTime} Second{targetTime != 1 ? "'s" : ''}
         </p>
-        <button className="bg-startGameBG px-4 py-2 text-white rounded-md my-10">
+        <button
+          onClick={timerStarted ? handleStop : handleStart}
+          className="bg-startGameBG px-4 py-2 text-white rounded-md my-8"
+        >
           Start Challange
         </button>
-        <p className="font-extralight text-teal-900">
-          {timerStatus}TimerStatus
+        <p className="pb-4 font-extralight text-teal-900">
+          {timerStarted ? 'Time is running...' : timerStatus}
         </p>
-      </div>
-    </div>
+      </section>
+      <dialog className="border border-red-500">
+        <h2>You </h2>
+        <p>
+          The target time was <strong> seconds.</strong>
+        </p>
+        <p>
+          You stopped the timer with <strong>X seconds left.</strong>
+        </p>
+        <form method="dialog">
+          <button>Close</button>
+        </form>
+      </dialog>
+    </>
   );
 }
