@@ -15,6 +15,7 @@ export default function GameBoard({
   // let timer;
 
   let timer = useRef();
+  let dialogRef = useRef();
 
   const [timerStarted, setTimerStarted] = useState(false);
   const [timerExpired, setTimerExpired] = useState(false);
@@ -24,6 +25,7 @@ export default function GameBoard({
     timer.current = setTimeout(() => {
       setTimerExpired(true);
       setTimerStarted(false);
+      dialogRef.current.open();
     }, 1000 * targetTime);
   }
 
@@ -35,10 +37,9 @@ export default function GameBoard({
 
   return (
     <>
-      {timerExpired && <ResultModal targetTime={targetTime} />}
+      <ResultModal ref={dialogRef} targetTime={targetTime} result="lost" />
       <section className="bg-gamepadBG w-full flex flex-col justify-center items-center rounded-lg py-2">
         <h1 className="my-4 uppercase text-xl font-bold">{difficultyLevel}</h1>
-        {timerExpired && <i>You lost!</i>}
         <p className="border border-teal-400 rounded-md px-2 py-1">
           {targetTime} Second{targetTime != 1 ? "'s" : ''}
         </p>
