@@ -7,6 +7,7 @@ export default function Player() {
   function handleClick() {
     setEnterPlayerName(playerName.current.value);
     console.log(playerName.current.placeholder);
+    playerName.current.value = '';
   }
 
   ///////////   This is a bit comlex with useState() ///////////

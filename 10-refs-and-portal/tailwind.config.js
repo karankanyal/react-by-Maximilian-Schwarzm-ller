@@ -33,6 +33,16 @@ export default {
         setNameColor: '#d1f0ec',
         inputColor: '#d1f0ec',
       },
+
+      animation: {
+        pulse: 'pulse 1s ease-in-out infinite',
+      },
+      keyframes: {
+        pulse: {
+          '0%, 100%': { opacity: '1' },
+          '50%': { opacity: '0.5' },
+        },
+      },
     },
   },
   plugins: [],
