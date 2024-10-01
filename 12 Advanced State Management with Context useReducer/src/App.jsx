@@ -4,6 +4,8 @@ import { DUMMY_PRODUCTS } from './dummy-products';
 import Header from './component/Header';
 import Shop from './component/Shop';
 
+import { CartContext } from './store/shopping-cart-context.jsx';
+
 function App() {
   const [shoppingCart, setShoppingCart] = useState({ items: [] });
 
@@ -57,15 +59,18 @@ function App() {
     });
   }
 
+  const ctxValue = {
+    items: shoppingCart.items,
+    DUMMY_PRODUCTS: DUMMY_PRODUCTS,
+    addItemToCart: handleShopingCart,
+    handleItemQuantity: handleUpdateCartItemQuantity,
+  };
+
   return (
-    <>
-      <Header
-        cart={shoppingCart}
-        onAddToCart={handleShopingCart}
-        onUpdateCartItemQuantity={handleUpdateCartItemQuantity}
-      />
-      <Shop DUMMY_PRODUCTS={DUMMY_PRODUCTS} onAddToCart={handleShopingCart} />
-    </>
+    <CartContext.Provider value={ctxValue}>
+      <Header />
+      <Shop></Shop>
+    </CartContext.Provider>
   );
 }
 

@@ -1,10 +1,13 @@
 import { useRef } from 'react';
 import CartModal from './CartModal';
+import { CartContext } from '../store/shopping-cart-context';
+import { useContext } from 'react';
 
-export default function HeaderHeader({ cart, onUpdateCartItemQuantity }) {
+export default function Header({}) {
   let buttonAction = '';
+  const { items } = useContext(CartContext);
 
-  cart.items.length > 0
+  items.length > 0
     ? (buttonAction = (
         <>
           <button className="px-5 py-1 border-none mx-5">Close</button>
@@ -27,8 +30,7 @@ export default function HeaderHeader({ cart, onUpdateCartItemQuantity }) {
   return (
     <>
       <CartModal
-        cartItems={cart.items}
-        onUpdateCartItemQuantity={onUpdateCartItemQuantity}
+        cartItems={items}
         title="Your Cart"
         ref={headerRef}
         action={buttonAction}
@@ -52,7 +54,7 @@ export default function HeaderHeader({ cart, onUpdateCartItemQuantity }) {
           <button className="border-none focus:outline-none placeholder-indigo-950">
             Cart
           </button>
-          ({cart.items.length})
+          ({items.length})
         </p>
       </header>
     </>
