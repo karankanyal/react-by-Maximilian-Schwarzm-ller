@@ -6,6 +6,7 @@ import { useContext } from 'react';
 export default function Header({}) {
   let buttonAction = '';
   const { items } = useContext(CartContext);
+  console.log(items);
 
   items.length > 0
     ? (buttonAction = (

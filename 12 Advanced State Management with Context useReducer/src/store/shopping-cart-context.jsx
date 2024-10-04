@@ -55,7 +55,6 @@ function shoppingCartReducer(state, action) {
       items: updatedItems,
     };
   }
-
   return state;
 }
 
