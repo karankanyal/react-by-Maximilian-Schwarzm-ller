@@ -13,6 +13,7 @@ export const PlacesCartContext = createContext({
 });
 
 function visitingCartReducer(state, { type, payload }) {
+  // Type and payload are the variables of action object.
   const activePlace = AVAILABLE_PLACES.find((place) => place.id === payload);
   let updatedPlace;
 
@@ -57,8 +58,9 @@ export default function PlaceContextProvider({ children }) {
     });
   }
 
-  function handleStartRemovePlace() {
+  function handleStartRemovePlace(id) {
     modalRef.current.open();
+    modalRef.current.id = id;
   }
 
   function handleStopRemovePlace() {
@@ -68,8 +70,9 @@ export default function PlaceContextProvider({ children }) {
   function handleRemovePlace() {
     updatedCartDispatch({
       type: "START_REMOVE",
-      payload: id,
+      payload: modalRef.current.id,
     });
+    modalRef.current.close();
   }
 
   const ctxValue = {

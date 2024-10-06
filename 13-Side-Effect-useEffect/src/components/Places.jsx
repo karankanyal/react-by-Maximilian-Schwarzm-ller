@@ -1,6 +1,6 @@
 export default function Places({ title, fallbackText, places, onSelectPlace }) {
   return (
-    <section className="max-w-7xl w-full mx-auto my-8 p-4 rounded-lg border border-customSectionBorder">
+    <section className="max-w-7xl mx-auto my-8 p-4 rounded-lg border border-customSectionBorder">
       <h2 className="font-raleway text-2xl font-bold mb-4 text-[#8feeff] text-center m-0 p-0">
         {title}
       </h2>
@@ -8,7 +8,7 @@ export default function Places({ title, fallbackText, places, onSelectPlace }) {
         <p className="text-center mb-7">{fallbackText}</p>
       )}
       {places.length > 0 && (
-        <ul className="max-w-[80rem] grid grid-cols-[repeat(auto-fill,_minmax(18rem,_1fr))] gap-8 m-8 mx-auto p-0 list-none">
+        <ul className="max-w-[70rem] grid grid-cols-[repeat(auto-fill,_minmax(15rem,_1fr))] gap-8 m-8 mx-auto list-none">
           {places.map((place) => (
             <li
               key={place.id}

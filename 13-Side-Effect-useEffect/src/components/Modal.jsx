@@ -17,7 +17,7 @@ const Modal = forwardRef(function Modal({ children }, ref) {
 
   return createPortal(
     <dialog
-      className=" modal min-w-[30rem] z-[2] bg-[#d5c7bc] rounded-lg animate-slide-up-fade-in"
+      className="top-[40%] left-[40%] modal z-[2] bg-[#d5c7bc] rounded-lg animate-slide-up-fade-in"
       ref={dialog}
     >
       {children}
