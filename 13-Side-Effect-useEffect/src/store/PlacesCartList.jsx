@@ -18,15 +18,24 @@ function visitingCartReducer(state, { type, payload }) {
   let updatedPlace;
 
   if (type === "ADD") {
-    if (state.places.length === 0) {
-      updatedPlace = [...state.places, activePlace];
+    const storedIds = JSON.parse(localStorage.getItem("selectedPlaces")) || [];
+    if (storedIds.indexOf(payload) === -1) {
+      localStorage.setItem(
+        "selectedPlaces",
+        JSON.stringify([payload, ...storedIds])
+      );
+
+      if (state.places.length === 0) {
+        updatedPlace = [...state.places, activePlace];
+      }
+      if (state.places.length >= 1) {
+        const isAvailable = state.places.some((place) => place.id === payload);
+        isAvailable
+          ? (updatedPlace = [...state.places])
+          : (updatedPlace = [...state.places, activePlace]);
+      }
     }
-    if (state.places.length >= 1) {
-      const isAvailable = state.places.some((place) => place.id === payload);
-      isAvailable
-        ? (updatedPlace = [...state.places])
-        : (updatedPlace = [...state.places, activePlace]);
-    }
+
     return {
       ...state,
       places: updatedPlace,
