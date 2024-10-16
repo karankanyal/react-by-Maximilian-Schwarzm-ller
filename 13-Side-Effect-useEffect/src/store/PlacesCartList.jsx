@@ -13,36 +13,28 @@ export const PlacesCartContext = createContext({
 });
 
 function visitingCartReducer(state, { type, payload }) {
-  useEffect(() => {
-    const storedIds = JSON.parse(localStorage.getItem("selectedPlaces")) || [];
-    const storedPlaces = storedIds.map((id) => {
-      AVAILABLE_PLACES.find((place) => place.id === id);
-    });
-  }, []);
-
   // Type and payload are the variables of action object.
-  const activePlace = AVAILABLE_PLACES.find((place) => place.id === payload);
-  let updatedPlace;
+  const storedIds = JSON.parse(localStorage.getItem("selectedPlaces")) || [];
 
   if (type === "ADD") {
-    if (state.places.length === 0) {
-      updatedPlace = [...state.places, activePlace];
-    }
-    if (state.places.length >= 1) {
-      const isAvailable = state.places.some((place) => place.id === payload);
-      isAvailable
-        ? (updatedPlace = [...state.places])
-        : (updatedPlace = [...state.places, activePlace]);
-    }
-
-    const storedIds = JSON.parse(localStorage.getItem("selectedPlaces")) || [];
-    if (storedIds.indexOf(payload) === -1) {
+    if (storedIds.length === 0) {
       localStorage.setItem(
         "selectedPlaces",
         JSON.stringify([payload, ...storedIds])
       );
     }
-
+    if (storedIds.length >= 1) {
+      const isAvailable = storedIds.includes(payload);
+      isAvailable
+        ? localStorage.setItem("selectedPlaces", JSON.stringify([...storedIds]))
+        : localStorage.setItem(
+            "selectedPlaces",
+            JSON.stringify([payload, ...storedIds])
+          );
+    }
+    const updatedPlace = storedIds.map((id) =>
+      AVAILABLE_PLACES.find((place) => place.id === id)
+    );
     return {
       ...state,
       places: updatedPlace,
@@ -53,18 +45,27 @@ function visitingCartReducer(state, { type, payload }) {
     const removingElement = state.places.findIndex(
       (place) => place.id === payload
     );
-    if (removingElement !== -1) {
-      state.places.splice(removingElement, 1);
-      return { ...state };
-    }
+
+    if (removingElement !== -1) storedIds.splice(removingElement, 1);
+
+    const updatedPlace = storedIds.map((id) =>
+      AVAILABLE_PLACES.find((place) => place.id === id)
+    );
+
+    console.log(state, places);
+
+    return {
+      ...state,
+      places: updatedPlace,
+    };
   }
-  return state;
 }
 
 export default function PlaceContextProvider({ children }) {
   const [updatedCart, updatedCartDispatch] = useReducer(visitingCartReducer, {
     places: [],
   });
+
   const modalRef = useRef(null);
 
   function handleSelectPlace(id) {
