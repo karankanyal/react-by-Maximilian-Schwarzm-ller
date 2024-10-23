@@ -228,3 +228,7 @@ header p {
     transform: translateY(0);
   }
 }
+
+progress {
+  padding: 10px;
+}

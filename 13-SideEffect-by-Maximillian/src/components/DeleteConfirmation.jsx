@@ -1,9 +1,11 @@
 import { useEffect } from "react";
+import Progress from "./Progress";
 
 export default function DeleteConfirmation({ onConfirm, onCancel }) {
+  const TIMER = 5000;
+
   useEffect(() => {
     const timer = setTimeout(() => {
-      console.log("TIMER SET");
       onConfirm();
     }, 5000);
 
@@ -12,6 +14,8 @@ export default function DeleteConfirmation({ onConfirm, onCancel }) {
       clearTimeout(timer);
     };
   }, [onConfirm]);
+  // When adding a function as a dependency to the useEffect hook there is a denger of creating an infinite loop, because functions are at the end are values(object).
+  // for example:- when dependency gets updated/changed useEffect will be re-executed and which will call onConfirm method and this will endup creating an infinite loop.
 
   return (
     <div id="delete-confirmation">
@@ -24,6 +28,7 @@ export default function DeleteConfirmation({ onConfirm, onCancel }) {
         <button onClick={onConfirm} className="button ">
           Yes
         </button>
+        <Progress timer={TIMER} />
       </div>
     </div>
   );
